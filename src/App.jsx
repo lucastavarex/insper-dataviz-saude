@@ -1,4 +1,3 @@
-import React from 'react'
 import Conclusion from './components/Conclusion'
 import Cover from './components/Cover'
 import Disease from './components/Disease'
@@ -9,7 +8,7 @@ import Text from './components/Text'
 
 export default function App() {
   return (
-    <div>
+    <div className='overflow-x-hidden'>
       <Cover />
       <Text />
       <ScrollyCards />
