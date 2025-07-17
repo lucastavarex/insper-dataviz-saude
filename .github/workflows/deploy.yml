@@ -3,8 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -22,14 +20,21 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
-      
+        
     - name: Build
       env:
         VITE_MAPBOX_TOKEN: ${{ secrets.VITE_MAPBOX_TOKEN }}
-      run: npm run build
-      
+      run: |
+        echo "Checking if VITE_MAPBOX_TOKEN is set..."
+        if [ -n "$VITE_MAPBOX_TOKEN" ]; then
+          echo "VITE_MAPBOX_TOKEN is set (length: ${#VITE_MAPBOX_TOKEN})"
+        else
+          echo "VITE_MAPBOX_TOKEN is NOT set"
+          exit 1
+        fi
+        npm run build
+        
     - name: Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
