@@ -8,6 +8,8 @@ export default {
     extend: {
       fontFamily: {
         'sans': ['DM Sans', 'sans-serif'],
+        'libre': ['Libre Baskerville', 'serif'],
+        'serif': ['Libre Baskerville', 'serif'],
       },
     },
   },

@@ -8,7 +8,7 @@ import Text from './components/Text'
 
 export default function App() {
   return (
-    <div className='overflow-x-hidden'>
+    <>
       <Cover />
       <Text />
       <ScrollyCards />
@@ -16,6 +16,6 @@ export default function App() {
       <Disease />
       <Conclusion />
       <Footer />
-    </div>
+    </>
   )
 }

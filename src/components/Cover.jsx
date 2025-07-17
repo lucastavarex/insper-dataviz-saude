@@ -4,9 +4,10 @@ import insperLogo from '../assets/insper-logo.png'
 export default function Cover() {
   return (
     <div 
-      className="w-screen h-screen bg-cover flex flex-col items-center justify-center relative"
+      className="h-screen bg-cover flex flex-col items-center justify-center relative"
       style={{
-        backgroundImage: `url(${coverImage})`
+        backgroundImage: `url(${coverImage})`,
+        overflow: 'hidden !important'
       }}
     >
       {/* Insper logo/text at the top */}
