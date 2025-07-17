@@ -4,13 +4,14 @@ import { defineConfig, loadEnv } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = loadEnv(mode, '.', '');
   return {
     define: {
       global: {},
-      'process.env': env
+      'process.env.VITE_MAPBOX_TOKEN': JSON.stringify(env.VITE_MAPBOX_TOKEN)
     },
     plugins: [react(), tailwindcss()],
+    base: mode === 'production' ? '/insper-dataviz-saude/' : '/',
   }
 })
 

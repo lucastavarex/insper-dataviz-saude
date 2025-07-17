@@ -1,9 +1,9 @@
-import { useGSAP } from '@gsap/react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { useRef, useState } from 'react';
-import Map from 'react-map-gl/mapbox';
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useRef, useState } from "react";
+import Map from "react-map-gl/mapbox";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -11,14 +11,14 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ScrollyCards() {
   const mapRef = useRef();
   const containerRef = useRef();
-  
+
   // Map state
   const [viewState, setViewState] = useState({
     longitude: -46.6333,
     latitude: -23.5505,
     zoom: 10,
     pitch: 0,
-    bearing: 0
+    bearing: 0,
   });
 
   // Define your travel locations
@@ -29,7 +29,7 @@ export default function ScrollyCards() {
       zoom: 10,
       pitch: 0,
       bearing: 0,
-      title: "São Paulo"
+      title: "São Paulo",
     },
     {
       longitude: -43.1729,
@@ -37,7 +37,7 @@ export default function ScrollyCards() {
       zoom: 12,
       pitch: 45,
       bearing: 90,
-      title: "Rio de Janeiro"
+      title: "Rio de Janeiro",
     },
     {
       longitude: -47.9292,
@@ -45,7 +45,7 @@ export default function ScrollyCards() {
       zoom: 11,
       pitch: 30,
       bearing: -45,
-      title: "Brasília"
+      title: "Brasília",
     },
     {
       longitude: -49.2643,
@@ -53,18 +53,17 @@ export default function ScrollyCards() {
       zoom: 13,
       pitch: 60,
       bearing: 180,
-      title: "Curitiba"
-    }
+      title: "Curitiba",
+    },
   ];
 
   // Animate map transitions on scroll
   useGSAP(() => {
-    // Create refs for each card to use as triggers
-    const cardElements = containerRef.current?.querySelectorAll('[data-card-index]');
-    
     locations.forEach((location, index) => {
-      const cardElement = containerRef.current?.querySelector(`[data-card-index="${index}"]`);
-      
+      const cardElement = containerRef.current?.querySelector(
+        `[data-card-index="${index}"]`
+      );
+
       if (cardElement) {
         ScrollTrigger.create({
           trigger: cardElement,
@@ -78,7 +77,7 @@ export default function ScrollyCards() {
                 pitch: location.pitch,
                 bearing: location.bearing,
                 duration: 2000,
-                essential: true
+                essential: true,
               });
             }
           },
@@ -90,16 +89,16 @@ export default function ScrollyCards() {
                 pitch: location.pitch,
                 bearing: location.bearing,
                 duration: 2000,
-                essential: true
+                essential: true,
               });
             }
-          }
+          },
         });
       }
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
@@ -114,17 +113,14 @@ export default function ScrollyCards() {
         alignItems: "center",
       }}
     >
-      <div
-        style={{ position: "sticky", top: 0 }}
-        className="h-screen w-full"
-      >
+      <div style={{ position: "sticky", top: 0 }} className="h-screen w-full">
         <Map
           ref={mapRef}
           initialViewState={viewState}
-          onMove={evt => setViewState(evt.viewState)}
+          onMove={(evt) => setViewState(evt.viewState)}
           mapStyle="mapbox://styles/mapbox/dark-v10"
-          mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-          style={{ width: '100%', height: '100%' }}
+          mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+          style={{ width: "100%", height: "100%" }}
           interactiveLayerIds={[]}
           dragPan={false}
           dragRotate={false}
@@ -133,13 +129,12 @@ export default function ScrollyCards() {
           touchRotate={false}
           keyboard={false}
           doubleClickZoom={false}
-        >
-        </Map>
+        ></Map>
       </div>
 
       <div className="relative flex flex-col items-center">
         {locations.map((location, index) => (
-          <div 
+          <div
             key={index}
             data-card-index={index}
             className="absolute bg-white h-auto w-[80vw] md:w-[460px]  px-[30px]
@@ -150,8 +145,12 @@ export default function ScrollyCards() {
     "
             style={{ top: `${index * 120}vh` }}
           >
-            <h1 className="text-2xl font-bold text-gray-800">{location.title}</h1>
-            <p className="text-gray-600 mt-2">Exploring the beauty of {location.title}</p>
+            <h1 className="text-2xl font-bold text-gray-800">
+              {location.title}
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Exploring the beauty of {location.title}
+            </p>
           </div>
         ))}
       </div>
