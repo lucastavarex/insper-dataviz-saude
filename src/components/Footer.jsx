@@ -2,7 +2,7 @@ import insperLogo from '../assets/insper-logo.png';
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-white py-24 px-6 lg:px-12" style={{ fontFamily: '"Libre Baskerville", serif' }}>
+    <footer className="bg-[#0E171D] text-white py-24 px-6 lg:px-12" style={{ fontFamily: '"Libre Baskerville", serif' }}>
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header Section with Insper Title and Publication */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
