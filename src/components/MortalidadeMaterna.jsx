@@ -1,3 +1,4 @@
+import chart1 from '../assets/chart1.png';
 import chart2 from '../assets/chart2.png';
 import chart3 from '../assets/chart3.png';
 import icon1 from '../assets/icon1.png';
@@ -125,7 +126,7 @@ export default function MortalidadeMaterna() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="rounded-lg p-4">
                 <img 
-                  src="/src/assets/chart1.png" 
+                  src={chart1}
                   alt="Gráfico temporal - Mulheres" 
                   className="w-full h-auto rounded"
                   onError={(e) => {
