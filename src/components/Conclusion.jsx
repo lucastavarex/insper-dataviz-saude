@@ -3,12 +3,12 @@ import textBackground from "../assets/text-background.png";
 export default function Conclusion() {
   return (
     <div
-      className="bg-cover bg-center bg-no-repeat flex items-center justify-center px-8 py-16"
+      className="bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 md:px-8 py-16"
       style={{
         backgroundImage: `url(${textBackground})`,
       }}
     >
-      <div className="max-w-xl rounded-2xl p-8">
+      <div className="max-w-xl rounded-2xl">
         <div className="space-y-6 text-black leading-relaxed">
           <p>
             O estudo detalhado da distribuição espacial de algumas doenças e
