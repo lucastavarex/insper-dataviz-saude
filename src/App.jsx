@@ -1,18 +1,22 @@
 
-import Conclusion from './components/Conclusion'
-import Cover from './components/Cover'
-import DiabetesMellitus from './components/DiabetesMellitus'
-import DiseasesIntroduction from './components/DiseasesIntroduction'
-import DoencasCerebrovasculares from './components/DoencasCerebroVasculares'
-import DoencasIsquemicasDoCoracao from './components/DoencasIsquemicasDoCoracao'
-import Footer from './components/Footer'
-import MortalidadeMaterna from './components/MortalidadeMaterna'
-import ScrollyCards from './components/ScrollyCards'
-import Text from './components/Text'
+import { Suspense, lazy } from 'react'
+import Loading from './components/Loading'
+
+// Lazy load all components
+const Conclusion = lazy(() => import('./components/Conclusion'))
+const Cover = lazy(() => import('./components/Cover'))
+const DiabetesMellitus = lazy(() => import('./components/DiabetesMellitus'))
+const DiseasesIntroduction = lazy(() => import('./components/DiseasesIntroduction'))
+const DoencasCerebrovasculares = lazy(() => import('./components/DoencasCerebroVasculares'))
+const DoencasIsquemicasDoCoracao = lazy(() => import('./components/DoencasIsquemicasDoCoracao'))
+const Footer = lazy(() => import('./components/Footer'))
+const MortalidadeMaterna = lazy(() => import('./components/MortalidadeMaterna'))
+const ScrollyCards = lazy(() => import('./components/ScrollyCards'))
+const Text = lazy(() => import('./components/Text'))
 
 export default function App() {
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <Cover />
       <Text />
       <ScrollyCards />
@@ -23,6 +27,6 @@ export default function App() {
       <MortalidadeMaterna />
       <Conclusion />
       <Footer />
-    </>
+    </Suspense>
   )
 }
