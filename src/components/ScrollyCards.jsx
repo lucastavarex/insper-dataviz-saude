@@ -14,9 +14,9 @@ export default function ScrollyCards() {
 
   // Map state
   const [viewState, setViewState] = useState({
-    longitude: -46.6333,
-    latitude: -23.5505,
-    zoom: 10,
+    longitude: -46.657198,
+    latitude: -23.680764,
+    zoom: 9.33,
     pitch: 0,
     bearing: 0,
   });
@@ -24,52 +24,86 @@ export default function ScrollyCards() {
   // Define your travel locations
   const locations = [
     {
+      longitude: -46.657198,
+      latitude: -23.680764,
+      zoom: 9.5,
+      pitch: 0,
+      bearing: 0,
+      top: 0,
+      text: (
+        <>
+          A desigualdade socioeconômica no município de São Paulo pode ser
+          visualizada de forma clara por meio do Índice GeoSES, que resume as
+          condições socioeconômicas da cidade. O mapa a seguir, com dados de
+          2010, revela como fatores como renda, educação e infraestrutura urbana
+          estão distribuídos de maneira desigual entre diferentes regiões da
+          cidade. As áreas em azul indicam regiões com melhores condições
+          socioeconômicas, enquanto as áreas em vermelho representam regiões com
+          maior vulnerabilidade.
+        </>
+      ),
+    },
+    {
       longitude: -46.6333,
       latitude: -23.5505,
       zoom: 10,
       pitch: 0,
       bearing: 0,
+      top: 150,
       text: (
         <>
-          A desigualdade socioeconômica no município de São Paulo pode ser visualizada de forma clara por meio do Índice GeoSES, que resume as condições socioeconômicas da cidade. O mapa a seguir, com dados de 2010, revela como fatores como renda, educação e infraestrutura urbana estão distribuídos de maneira desigual entre diferentes regiões da cidade. As áreas em azul indicam regiões com melhores condições socioeconômicas, enquanto as áreas em vermelho representam regiões com maior vulnerabilidade.
+          Notamos que{" "}
+          <strong>
+            a desigualdade aumenta progressivamente à medida que nos afastamos
+            do centro da cidade
+          </strong>
+          . Tenha este mapa em mente, pois ele será fundamental para compreender
+          a relação com os demais mapas apresentados a seguir.
         </>
       ),
     },
     {
-      longitude: -43.1729,
-      latitude: -22.9068,
-      zoom: 12,
-      pitch: 45,
-      bearing: 90,
-      text: (
-        <>
-          Notamos que a desigualdade aumenta progressivamente à medida que nos afastamos do centro da cidade. Tenha este mapa em mente, pois ele será fundamental para compreender a relação com os demais mapas apresentados a seguir.
-        </>
-      ),
-    },
-    {
-      longitude: -47.9292,
-      latitude: -15.7801,
+      longitude: -46.4133,
+      latitude: -23.5085,
       zoom: 11,
-      pitch: 30,
-      bearing: -45,
+      pitch: 0,
+      bearing: 0,
+      top: 300,
       text: (
         <>
-          A seguir, contaremos a história de <strong>Maria</strong>, que mora no Jardim Helena, um bairro periférico da Zona Leste de São Paulo. Este é um caso hipotético, mas pode ser muito comum na realidade brasileira.
+          A seguir, contaremos a história de Maria, que mora no Jardim Helena,
+          um bairro periférico da Zona Leste de São Paulo.{" "}
+          <strong>
+            Este é um caso hipotético, mas pode ser muito comum na realidade
+            brasileira.
+          </strong>
         </>
       ),
     },
     {
-      longitude: -49.2643,
-      latitude: -25.4284,
-      zoom: 13,
-      pitch: 60,
-      bearing: 180,
+      longitude: -46.4133,
+      latitude: -23.5085,
+      zoom: 11.5,
+      pitch: 0,
+      bearing: 0,
+      top: 450,
       text: (
         <>
-          O dia começa cedo: às <strong>4h da manhã</strong>, Maria já está de pé para preparar o café das crianças e tomar um banho rápido antes de sair. Como o tempo é curto, a primeira refeição do dia não é feita como deveria. Os alimentos ultraprocessados, como achocolatados e biscoitos recheados dão lugar às frutas, aos ovos e ao suco caseiro.
-          <br /><br />
-          Maria tem <strong>Diabetes Mellitus</strong> e precisa medir sua glicose diariamente, mas sua rotina é tão corrida que nem sempre ela consegue fazer isso como deveria.
+          O dia começa cedo: às 4h da manhã, Maria já está de pé para preparar o
+          café das crianças e tomar um banho rápido antes de sair.{" "}
+          <strong>
+            Como o tempo é curto, a primeira refeição do dia não é feita como
+            deveria.
+          </strong>{" "}
+          Os alimentos ultraprocessados, como achocolatados e biscoitos
+          recheados dão lugar às frutas, aos ovos e ao suco caseiro.
+          <br />
+          <strong className="mt-4 block">
+            {" "}
+            Maria tem <strong>Diabetes Mellitus</strong> e precisa medir sua
+            glicose diariamente, mas sua rotina é tão corrida que nem sempre ela
+            consegue fazer isso como deveria.
+          </strong>
         </>
       ),
     },
@@ -86,10 +120,11 @@ export default function ScrollyCards() {
         ScrollTrigger.create({
           trigger: cardElement,
           start: "center center",
-          end: "center center",
+
           onEnter: () => {
             if (mapRef.current) {
-              mapRef.current.getMap().flyTo({
+              const map = mapRef.current.getMap();
+              map.flyTo({
                 center: [location.longitude, location.latitude],
                 zoom: location.zoom,
                 pitch: location.pitch,
@@ -101,7 +136,8 @@ export default function ScrollyCards() {
           },
           onEnterBack: () => {
             if (mapRef.current) {
-              mapRef.current.getMap().flyTo({
+              const map = mapRef.current.getMap();
+              map.flyTo({
                 center: [location.longitude, location.latitude],
                 zoom: location.zoom,
                 pitch: location.pitch,
@@ -115,6 +151,57 @@ export default function ScrollyCards() {
       }
     });
 
+    // Create a separate ScrollTrigger for the last card fade effect
+    const lastCardElement = containerRef.current?.querySelector(
+      `[data-card-index="${locations.length - 1}"]`
+    );
+
+    if (lastCardElement) {
+      ScrollTrigger.create({
+        trigger: lastCardElement,
+        start: "center center",
+
+        onEnter: () => {
+          if (mapRef.current) {
+            const map = mapRef.current.getMap();
+            if (map.isStyleLoaded()) {
+              console.log("Fading out layer");
+              map.setPaintProperty("remuneracao_media", "fill-opacity", 0);
+            } else {
+              map.on("styledata", () => {
+                map.setPaintProperty("remuneracao_media", "fill-opacity", 0);
+              });
+            }
+          }
+        },
+
+        onEnterBack: () => {
+          if (mapRef.current) {
+            const map = mapRef.current.getMap();
+            if (map.isStyleLoaded()) {
+              map.setPaintProperty("remuneracao_media", "fill-opacity", 0);
+            } else {
+              map.on("styledata", () => {
+                map.setPaintProperty("remuneracao_media", "fill-opacity", 0);
+              });
+            }
+          }
+        },
+        onLeaveBack: () => {
+          if (mapRef.current) {
+            const map = mapRef.current.getMap();
+            if (map.isStyleLoaded()) {
+              map.setPaintProperty("remuneracao_media", "fill-opacity", 1);
+            } else {
+              map.on("styledata", () => {
+                map.setPaintProperty("remuneracao_media", "fill-opacity", 1);
+              });
+            }
+          }
+        },
+      });
+    }
+
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
@@ -126,7 +213,7 @@ export default function ScrollyCards() {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "600vh",
+        height: "660vh",
         width: "100%",
         alignItems: "center",
       }}
@@ -136,7 +223,7 @@ export default function ScrollyCards() {
           ref={mapRef}
           initialViewState={viewState}
           onMove={(evt) => setViewState(evt.viewState)}
-          mapStyle="mapbox://styles/mapbox/light-v10"
+          mapStyle="mapbox://styles/escritoriodedados/cmd9d4axk02di01s43wnrfwcz"
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
           style={{ width: "100%", height: "100%" }}
           interactiveLayerIds={[]}
@@ -161,11 +248,9 @@ export default function ScrollyCards() {
     lg:py-[25px]
     rounded-xl shadow-lg
     "
-            style={{ top: `${index * 120}vh` }}
+            style={{ top: `${location.top}vh` }}
           >
-            <div className="text-[#000000]">
-              {location.text}
-            </div>
+            <div className="text-[#000000]">{location.text}</div>
           </div>
         ))}
       </div>

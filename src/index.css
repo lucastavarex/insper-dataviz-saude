@@ -10,3 +10,7 @@ body {
   margin: 0;
   padding: 0;
 }
+.mapboxgl-ctrl-logo,
+.mapbox-ctrl {
+  display: none !important;
+}
