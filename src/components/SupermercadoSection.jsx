@@ -4,12 +4,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useState } from "react";
 import houseBackground from "../assets/houseBackground.png";
 import houseBackground2 from "../assets/houseBackground2.png";
-import houseOne from "../assets/houseOne.png";
+import supermercado from "../assets/supermercado.png";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-export default function HouseSection() {
+export default function SupermercadoSection() {
   const containerRef = useRef();
   const [showBackground, setShowBackground] = useState(false);
   const [showBackground2, setShowBackground2] = useState(false);
@@ -135,9 +135,9 @@ export default function HouseSection() {
 
           {/* Main house image - fades out when background appears */}
           <img
-            src={houseOne}
+            src={supermercado}
             alt="House illustration"
-            className="max-w-full max-h-full object-contain relative z-10 transition-opacity duration-1000 ease-in-out"
+            className="max-w-auto xl:max-w-[600px] object-contain relative z-10 transition-opacity duration-1000 ease-in-out"
             style={{
               opacity: showBackground ? 0 : 1,
             }}
@@ -158,7 +158,6 @@ export default function HouseSection() {
     "
             style={{
               top: `${card.top}vh`,
-              opacity: index === 0 || index === 1 || index === 2 ? 0 : 1,
             }}
           >
             <div className="text-[#000000]">{card.text}</div>

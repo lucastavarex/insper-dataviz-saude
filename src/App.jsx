@@ -20,6 +20,9 @@ const MortalidadeMaterna = lazy(() =>
   import("./components/MortalidadeMaterna")
 );
 const ScrollyCards = lazy(() => import("./components/ScrollyCards"));
+const SupermercadoSection = lazy(() =>
+  import("./components/SupermercadoSection")
+);
 const Text = lazy(() => import("./components/Text"));
 
 export default function App() {
@@ -29,6 +32,7 @@ export default function App() {
       <Text />
       <ScrollyCards />
       <HouseSection />
+      <SupermercadoSection />
       <DiseasesIntroduction />
       <DiabetesMellitus />
       <DoencasCerebrovasculares />
