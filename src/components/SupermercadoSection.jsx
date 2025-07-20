@@ -2,17 +2,15 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useState } from "react";
-import houseBackground from "../assets/houseBackground.png";
-import houseBackground2 from "../assets/houseBackground2.png";
 import supermercado from "../assets/supermercado.png";
+import supermercadoTwo from "../assets/supermercadoTwo.png";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 export default function SupermercadoSection() {
   const containerRef = useRef();
-  const [showBackground, setShowBackground] = useState(false);
-  const [showBackground2, setShowBackground2] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0); // 0 for first image, 1 for second image
 
   // ScrollTrigger for background fade effect
   useGSAP(() => {
@@ -28,10 +26,12 @@ export default function SupermercadoSection() {
         trigger: firstCardElement,
         start: "bottom center",
         onEnter: () => {
-          setShowBackground(true);
+          // Keep first image when entering first card
+          setCurrentImage(0);
         },
         onLeaveBack: () => {
-          setShowBackground(false);
+          // Keep first image when going back to first card
+          setCurrentImage(0);
         },
       });
     }
@@ -39,12 +39,14 @@ export default function SupermercadoSection() {
     if (secondCardElement) {
       ScrollTrigger.create({
         trigger: secondCardElement,
-        start: "bottom center",
+        start: "top center",
         onEnter: () => {
-          setShowBackground2(true);
+          // Switch to second image when entering second card
+          setCurrentImage(1);
         },
         onLeaveBack: () => {
-          setShowBackground2(false);
+          // Switch back to first image when leaving second card
+          setCurrentImage(0);
         },
       });
     }
@@ -115,32 +117,22 @@ export default function SupermercadoSection() {
     <div ref={containerRef} className="h-[720vh]">
       <div style={{ position: "sticky", top: 0 }} className="h-screen w-full">
         <div className="min-h-screen w-full bg-white flex items-center justify-center relative">
-          {/* First background image with fade effect */}
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
-            style={{
-              backgroundImage: `url(${houseBackground})`,
-              opacity: showBackground && !showBackground2 ? 1 : 0,
-            }}
-          />
-
-          {/* Second background image with fade effect */}
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
-            style={{
-              backgroundImage: `url(${houseBackground2})`,
-              opacity: showBackground2 ? 1 : 0,
-            }}
-          />
-
-          {/* Main house image - fades out when background appears */}
+          {/* First image - supermercado */}
           <img
             src={supermercado}
-            alt="House illustration"
-            className="max-w-auto xl:max-w-[600px] object-contain relative z-10 transition-opacity duration-1000 ease-in-out"
-            style={{
-              opacity: showBackground ? 0 : 1,
-            }}
+            alt="Supermercado illustration"
+            className={`max-w-auto xl:max-w-[600px] object-contain absolute z-10 transition-opacity duration-1000 ease-in-out ${
+              currentImage === 0 ? "opacity-100" : "opacity-0"
+            }`}
+          />
+
+          {/* Second image - supermercadoTwo */}
+          <img
+            src={supermercadoTwo}
+            alt="Supermercado Two illustration"
+            className={`max-w-auto xl:max-w-[600px] object-contain absolute z-10 transition-opacity duration-1000 ease-in-out ${
+              currentImage === 1 ? "opacity-100" : "opacity-0"
+            }`}
           />
         </div>
       </div>
