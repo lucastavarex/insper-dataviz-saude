@@ -62,12 +62,8 @@ export default function SupermercadoSection() {
       top: 0,
       text: (
         <>
-          Às 5h30, Maria já está no ponto de ônibus. Duas conduções e quase duas
-          horas depois, ela chega ao trabalho no centro da cidade.{" "}
-          <strong>
-            O trajeto diário de Maria ilustra a realidade de milhões de
-            brasileiros que vivem nas periferias das grandes cidades.
-          </strong>
+          Lá, Maria trabalha como caixa de supermercado. Todo dia, pontualmente
+          às 8h da manhã, ela recebe dona Alice, cliente de carteirinha da loja.
         </>
       ),
     },
@@ -75,13 +71,10 @@ export default function SupermercadoSection() {
       top: 150,
       text: (
         <>
-          Durante o trajeto, Maria aproveita para tomar o café da manhã que não
-          conseguiu fazer em casa.{" "}
-          <strong>
-            Um biscoito recheado e um suco de caixinha substituem uma refeição
-            mais nutritiva
-          </strong>
-          , mas é o que o tempo e o orçamento permitem.
+          Recentemente dona Alice sofreu um AVC (acidente vascular cerebral ou
+          derrame), mas felizmente, recebeu atendimento rápido em um hospital de
+          excelência, localizado a poucos minutos de sua casa. Graças a isso,
+          ela se recuperou sem maiores complicações.
         </>
       ),
     },
@@ -89,10 +82,12 @@ export default function SupermercadoSection() {
       top: 300,
       text: (
         <>
-          No trabalho, Maria é auxiliar de limpeza em um hospital público.
+          Se dona Alice morasse no Jardim Helena, a história poderia ser
+          diferente.{" "}
           <strong>
-            Seu trabalho é essencial, mas a carga horária intensa e o estresse
-            do ambiente hospitalar impactam diretamente sua saúde.
+            Este estudo mostra que, em bairros periféricos como o de Maria, a
+            chance de um AVC ser fatal é significativamente maior devido à
+            dificuldade de acesso a cuidados médicos de qualidade.{" "}
           </strong>
         </>
       ),
@@ -101,13 +96,11 @@ export default function SupermercadoSection() {
       top: 450,
       text: (
         <>
-          Ao final do dia, Maria retorna para casa às 19h.{" "}
-          <strong>
-            Entre trabalho, transporte e cuidados domésticos, sobra pouco tempo
-            para cuidar da própria saúde
-          </strong>
-          , perpetuando um ciclo que afeta diretamente o controle de sua
-          diabetes.
+          Os resultados do estudo sobre mortalidade prematura por doenças
+          cerebrovasculares em mulheres ao longo de todo o período analisado
+          apontam um risco relativo significativamente elevado nos distritos do
+          extremo leste e sul da cidade, assim como em Brasilândia e
+          Cachoeirinha.
         </>
       ),
     },

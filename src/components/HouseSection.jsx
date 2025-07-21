@@ -129,7 +129,7 @@ export default function HouseSection() {
   ];
 
   return (
-    <div ref={containerRef} className="h-[720vh]">
+    <div ref={containerRef} className="h-[600vh]">
       <div
         style={{ position: "sticky", top: 0 }}
         className="h-screen w-full overflow-hidden"
@@ -180,7 +180,7 @@ export default function HouseSection() {
     "
             style={{
               top: `${card.top}vh`,
-              // opacity: index === 0 || index === 1 || index === 2 ? 0 : 1,
+              opacity: index === 0 || index === 1 ? 0 : 1,
             }}
           >
             <div className="text-[#000000]">{card.text}</div>
