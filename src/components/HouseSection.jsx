@@ -3,24 +3,32 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useState } from "react";
 import houseBackground from "../assets/houseBackground.png";
-import houseBackground2 from "../assets/houseBackground2.png";
 import houseOne from "../assets/houseOne.png";
+import {
+  default as houseBackground2,
+  default as panoramicImage,
+} from "../assets/panoramicImage.png";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HouseSection() {
   const containerRef = useRef();
+  const panoramicSliderRef = useRef();
   const [showBackground, setShowBackground] = useState(false);
   const [showBackground2, setShowBackground2] = useState(false);
+  const [showPanoramicScroll, setShowPanoramicScroll] = useState(false);
 
-  // ScrollTrigger for background fade effect
+  // ScrollTrigger for background fade effect and panoramic scroll
   useGSAP(() => {
     const firstCardElement = containerRef.current?.querySelector(
       `[data-card-index="0"]`
     );
     const secondCardElement = containerRef.current?.querySelector(
       `[data-card-index="1"]`
+    );
+    const thirdCardElement = containerRef.current?.querySelector(
+      `[data-card-index="2"]`
     );
 
     if (firstCardElement) {
@@ -49,10 +57,70 @@ export default function HouseSection() {
       });
     }
 
+    if (thirdCardElement) {
+      ScrollTrigger.create({
+        trigger: thirdCardElement,
+        start: "bottom center",
+        onEnter: () => {
+          setShowPanoramicScroll(true);
+        },
+        onLeaveBack: () => {
+          setShowPanoramicScroll(false);
+        },
+      });
+    }
+
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
+
+  // Separate useGSAP for panoramic scroll animation
+  useGSAP(() => {
+    if (showPanoramicScroll && panoramicSliderRef.current) {
+      const panoramicImg = panoramicSliderRef.current.querySelector("img");
+      const fourthCardElement = containerRef.current?.querySelector(
+        `[data-card-index="3"]`
+      );
+
+      if (panoramicImg && fourthCardElement) {
+        // Wait for image to load and get actual dimensions
+        const setupScroll = () => {
+          const imgWidth = panoramicImg.offsetWidth;
+          const viewportWidth = window.innerWidth;
+          const scrollDistance = imgWidth - viewportWidth;
+
+          if (scrollDistance > 0) {
+            gsap.to(panoramicImg, {
+              scrollTrigger: {
+                trigger: fourthCardElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+                invalidateOnRefresh: true,
+              },
+              x: -scrollDistance,
+              ease: "none",
+            });
+          }
+        };
+
+        // If image is already loaded
+        if (panoramicImg.complete && panoramicImg.offsetWidth > 0) {
+          setupScroll();
+        } else {
+          // Wait for image to load
+          panoramicImg.onload = setupScroll;
+          // Fallback timeout in case onload doesn't fire
+          setTimeout(setupScroll, 100);
+        }
+      }
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, [showPanoramicScroll]);
 
   // Define the text cards content and positions
   const cards = [
@@ -113,25 +181,51 @@ export default function HouseSection() {
 
   return (
     <div ref={containerRef} className="h-[720vh]">
-      <div style={{ position: "sticky", top: 0 }} className="h-screen w-full">
-        <div className="min-h-screen w-full bg-white flex items-center justify-center relative">
+      <div
+        style={{ position: "sticky", top: 0 }}
+        className="h-screen w-full overflow-hidden"
+      >
+        <div className="min-h-screen w-full bg-white flex items-center justify-center relative overflow-hidden">
           {/* First background image with fade effect */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
             style={{
               backgroundImage: `url(${houseBackground})`,
-              opacity: showBackground && !showBackground2 ? 1 : 0,
+              opacity:
+                showBackground && !showBackground2 && !showPanoramicScroll
+                  ? 1
+                  : 0,
             }}
           />
 
           {/* Second background image with fade effect */}
           <div
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+            className="absolute inset-0 bg-cover transition-opacity duration-1000 ease-in-out"
             style={{
               backgroundImage: `url(${houseBackground2})`,
-              opacity: showBackground2 ? 1 : 0,
+              opacity: showBackground2 && !showPanoramicScroll ? 1 : 0,
             }}
           />
+
+          {/* Panoramic horizontal scroll container */}
+          <div
+            ref={panoramicSliderRef}
+            className="absolute inset-0 bg-cover overflow-hidden transition-opacity duration-1000 ease-in-out"
+            style={{
+              opacity: showPanoramicScroll ? 1 : 0,
+            }}
+          >
+            <img
+              src={panoramicImage}
+              alt="Panoramic view"
+              className="h-full w-auto"
+              style={{
+                minWidth: "300vw",
+                height: "100vh",
+                objectFit: "cover",
+              }}
+            />
+          </div>
 
           {/* Main house image - fades out when background appears */}
           <img
