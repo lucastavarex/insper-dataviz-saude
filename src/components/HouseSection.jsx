@@ -4,10 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useState } from "react";
 import houseBackground from "../assets/houseBackground.png";
 import houseOne from "../assets/houseOne.png";
-import {
-  default as houseBackground2,
-  default as panoramicImage,
-} from "../assets/panoramicImage.png";
+import { default as panoramicImage } from "../assets/panoramicImage.png";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -16,7 +13,6 @@ export default function HouseSection() {
   const containerRef = useRef();
   const panoramicSliderRef = useRef();
   const [showBackground, setShowBackground] = useState(false);
-  const [showBackground2, setShowBackground2] = useState(false);
   const [showPanoramicScroll, setShowPanoramicScroll] = useState(false);
 
   // ScrollTrigger for background fade effect and panoramic scroll
@@ -26,9 +22,6 @@ export default function HouseSection() {
     );
     const secondCardElement = containerRef.current?.querySelector(
       `[data-card-index="1"]`
-    );
-    const thirdCardElement = containerRef.current?.querySelector(
-      `[data-card-index="2"]`
     );
 
     if (firstCardElement) {
@@ -49,19 +42,6 @@ export default function HouseSection() {
         trigger: secondCardElement,
         start: "bottom center",
         onEnter: () => {
-          setShowBackground2(true);
-        },
-        onLeaveBack: () => {
-          setShowBackground2(false);
-        },
-      });
-    }
-
-    if (thirdCardElement) {
-      ScrollTrigger.create({
-        trigger: thirdCardElement,
-        start: "bottom center",
-        onEnter: () => {
           setShowPanoramicScroll(true);
         },
         onLeaveBack: () => {
@@ -78,42 +58,23 @@ export default function HouseSection() {
   // Separate useGSAP for panoramic scroll animation
   useGSAP(() => {
     if (showPanoramicScroll && panoramicSliderRef.current) {
-      const panoramicImg = panoramicSliderRef.current.querySelector("img");
-      const fourthCardElement = containerRef.current?.querySelector(
-        `[data-card-index="3"]`
+      const thirdCardElement = containerRef.current?.querySelector(
+        `[data-card-index="2"]`
       );
 
-      if (panoramicImg && fourthCardElement) {
-        // Wait for image to load and get actual dimensions
-        const setupScroll = () => {
-          const imgWidth = panoramicImg.offsetWidth;
-          const viewportWidth = window.innerWidth;
-          const scrollDistance = imgWidth - viewportWidth;
-
-          if (scrollDistance > 0) {
-            gsap.to(panoramicImg, {
-              scrollTrigger: {
-                trigger: fourthCardElement,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-                invalidateOnRefresh: true,
-              },
-              x: -scrollDistance,
-              ease: "none",
-            });
-          }
-        };
-
-        // If image is already loaded
-        if (panoramicImg.complete && panoramicImg.offsetWidth > 0) {
-          setupScroll();
-        } else {
-          // Wait for image to load
-          panoramicImg.onload = setupScroll;
-          // Fallback timeout in case onload doesn't fire
-          setTimeout(setupScroll, 100);
-        }
+      if (thirdCardElement) {
+        // Animate background-position instead of img transform
+        gsap.to(panoramicSliderRef.current, {
+          scrollTrigger: {
+            trigger: thirdCardElement,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+          backgroundPosition: "100% center",
+          ease: "none",
+        });
       }
     }
 
@@ -122,7 +83,7 @@ export default function HouseSection() {
     };
   }, [showPanoramicScroll]);
 
-  // Define the text cards content and positions
+  // Define the text cards content and positions (removed the third card)
   const cards = [
     {
       top: 0,
@@ -155,18 +116,6 @@ export default function HouseSection() {
       top: 300,
       text: (
         <>
-          No trabalho, Maria é auxiliar de limpeza em um hospital público.
-          <strong>
-            Seu trabalho é essencial, mas a carga horária intensa e o estresse
-            do ambiente hospitalar impactam diretamente sua saúde.
-          </strong>
-        </>
-      ),
-    },
-    {
-      top: 450,
-      text: (
-        <>
           Ao final do dia, Maria retorna para casa às 19h.{" "}
           <strong>
             Entre trabalho, transporte e cuidados domésticos, sobra pouco tempo
@@ -188,50 +137,29 @@ export default function HouseSection() {
         <div className="min-h-screen w-full bg-white flex items-center justify-center relative overflow-hidden">
           {/* First background image with fade effect */}
           <div
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+            className="absolute inset-0 bg-cover bg-center transition-opacity duration-500 ease-in-out"
             style={{
               backgroundImage: `url(${houseBackground})`,
-              opacity:
-                showBackground && !showBackground2 && !showPanoramicScroll
-                  ? 1
-                  : 0,
-            }}
-          />
-
-          {/* Second background image with fade effect */}
-          <div
-            className="absolute inset-0 bg-cover transition-opacity duration-1000 ease-in-out"
-            style={{
-              backgroundImage: `url(${houseBackground2})`,
-              opacity: showBackground2 && !showPanoramicScroll ? 1 : 0,
+              opacity: showBackground && !showPanoramicScroll ? 1 : 0,
             }}
           />
 
           {/* Panoramic horizontal scroll container */}
           <div
             ref={panoramicSliderRef}
-            className="absolute inset-0 bg-cover overflow-hidden transition-opacity duration-1000 ease-in-out"
+            className="absolute inset-0 bg-cover overflow-hidden transition-opacity "
             style={{
+              backgroundImage: `url(${panoramicImage})`,
+              backgroundPosition: "0% center",
               opacity: showPanoramicScroll ? 1 : 0,
             }}
-          >
-            <img
-              src={panoramicImage}
-              alt="Panoramic view"
-              className="h-full w-auto"
-              style={{
-                minWidth: "300vw",
-                height: "100vh",
-                objectFit: "cover",
-              }}
-            />
-          </div>
+          />
 
           {/* Main house image - fades out when background appears */}
           <img
             src={houseOne}
             alt="House illustration"
-            className="max-w-full max-h-full object-contain relative z-10 transition-opacity duration-1000 ease-in-out"
+            className="max-w-full max-h-full object-contain relative z-10 transition-opacity duration-500 ease-in-out"
             style={{
               opacity: showBackground ? 0 : 1,
             }}
@@ -252,7 +180,7 @@ export default function HouseSection() {
     "
             style={{
               top: `${card.top}vh`,
-              opacity: index === 0 || index === 1 || index === 2 ? 0 : 1,
+              // opacity: index === 0 || index === 1 || index === 2 ? 0 : 1,
             }}
           >
             <div className="text-[#000000]">{card.text}</div>
